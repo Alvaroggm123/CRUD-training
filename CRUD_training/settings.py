@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+# |-----| OUR IMPORTED BIBLIOTECAS not librerias |-----| 
+# We use decouple and .gitignore file to hide our configuration parameters.
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8*baesozbk78+=2bp$%b_vvb-xk_42vr11ebq)+!8)g_&d#^)#'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -70,15 +74,27 @@ TEMPLATES = [
 WSGI_APPLICATION = 'CRUD_training.wsgi.application'
 
 
-# Database
+# |-----| Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# Specify of our "links" to the configuration database connection.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mssql',
+        'NAME': config('SQL_DB'),
+        'USER': config('SQL_USER'),
+        'PASSWORD': config('SQL_PASSWORD'),
+        'HOST': 'PW.AXOLOTLTEAM.COM' + config('SQL_INSTANCE'),
+        'OPTIONS': {'driver': 'ODBC Driver 17 for SQL Server', },
     }
 }
+# Comment to the default database configuration
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
