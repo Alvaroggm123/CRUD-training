@@ -14,8 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+# Our libs import
+# |-----| Lib to redirect to a specific app, link or folder
+from django.shortcuts import redirect
 
 urlpatterns = [
+    path('', lambda req: redirect('/account/')),
+    path('account/', include('apps.account.urls')),
+    # Admin url
     path('admin/', admin.site.urls),
 ]
